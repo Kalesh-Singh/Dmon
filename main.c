@@ -13,13 +13,21 @@ int main(int argc, char* argv[]) {
             printf("Usage: .... TODO\n");
             exit(1);
         } else if (!strcmp(argv[i], "-t")) {    // Interval flag
-            if ((interval = (int) strtol(argv[++i], NULL, 10)) <= 0) {
+            if (++i == argc) {
+                printf("Excepted value for flag -t\n");
+                exit(1);
+            }
+            if ((interval = (int) strtol(argv[i], NULL, 10)) <= 0) {
                 // TODO: Invalid interval
                 printf("Invalid interval!\n");
                 exit(1);
             }
         } else if (!strcmp(argv[i], "-f")) {    // Rules flag
-            rules = argv[++i];
+            if (++i == argc) {
+                printf("Expected value for flag -f\n");
+                exit(0);
+            }
+            rules = argv[i];
         } else {                                // Root directory
             root = argv[i];
         }
