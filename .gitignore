@@ -1,7 +1,7 @@
 # Misc
 .DS_Store
-.idea/*
-cmake-build-debug/*
+.idea
+cmake-build-debug
 CMakeLists.txt
 *.cbp
 *.o
