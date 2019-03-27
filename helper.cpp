@@ -7,7 +7,6 @@
 /*
  * Prints the usage of dmon
  */
-
 void usage() {
     std::cout << "\nUsage: dmon [options] ROOT\n"
                  "\n"

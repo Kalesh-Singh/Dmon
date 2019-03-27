@@ -1,10 +1,14 @@
 CC = g++
 OPTS = -Wall -Werror
+SRCS = $(wildcard *.cpp)
+OBJS = $(SRCS:.cpp=.o)
 
-all: main.cpp helper.o
-	$(CC) $(OPTS) $^ -o main
+all: main
 
-helper.o : helper.cpp helper.h
+main: ${OBJS}
+	$(CC) $(OPTS) $^ -o $@
+
+%.o: %.c %.h
 	$(CC) $(OPTS) -c $< -o $@
 
 .PHONY: clean
