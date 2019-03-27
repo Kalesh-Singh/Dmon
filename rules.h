@@ -17,4 +17,9 @@ typedef struct {
  */
 Rule* parseRulesFile(std::string& rulesPathname);
 
+/*
+ * Prints a Rule
+ */
+std::ostream &operator<<(std::ostream &out, const Rule& rule);
+
 #endif //DMON_RULES_H

@@ -14,3 +14,24 @@ Event getEvent(const std::string& eventStr) {
         return Event::UNKNOWN;
     }
 }
+
+/*
+ * Prints an event
+ */
+std::ostream &operator<<(std::ostream &out, const Event& event) {
+    switch (event) {
+        case Event::CREATE:
+            out << "CREATE";
+            break;
+        case Event::MODIFY:
+            out << "MODIFY";
+            break;
+        case Event::DELETE:
+            out << "DELETE";
+            break;
+        default:
+            out << "UNKNOWN";
+            break;
+    };
+    return out;
+}

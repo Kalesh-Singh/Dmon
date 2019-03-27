@@ -15,6 +15,17 @@ int getRulesCount(const std::string& rulesPathname);
 void parseRule(const std::string& ruleStr, Rule* rules, int ruleNum);
 
 /*
+ * Prints a Rule
+ */
+std::ostream &operator<<(std::ostream &out, const Rule& rule) {
+    out << "Event: " << rule.event
+        << " Pattern: " << rule.pattern
+        << " Action: " << rule.action
+        << std::endl;
+    return out;
+}
+
+/*
  * Parses the rule file and returns an array of
  * rule objects.
  */

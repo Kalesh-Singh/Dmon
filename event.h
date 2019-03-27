@@ -15,4 +15,9 @@ enum class Event {
  */
 Event getEvent(const std::string& eventStr);
 
+/*
+ * Prints an event
+ */
+std::ostream &operator<<(std::ostream &out, const Event& event);
+
 #endif //DMON_EVENT_H
