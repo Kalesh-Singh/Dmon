@@ -14,6 +14,15 @@ void parseRule(std::string& ruleStr, Rule* rule) {
     std::string patternStr;
     std::string actionStr;
 
+    // Get the event
+    ss >> eventStr;
+    rule->event = getEvent(eventStr);
+
+    // Get the pattern
+    ss >> rule->pattern;
+
+    // Get the action
+    std::getline(ss, actionStr);
 }
 
 

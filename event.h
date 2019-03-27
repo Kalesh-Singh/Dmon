@@ -1,13 +1,12 @@
 #ifndef DMON_EVENT_H
 #define DMON_EVENT_H
 
-#include <string>
+#include <iostream>
 
 enum class Event {
     CREATE,
     MODIFY,
-    DELETE,
-    UNKNOWN
+    DELETE
 };
 
 /*
