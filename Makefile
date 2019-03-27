@@ -1,7 +1,15 @@
-all: rules.o main.c
-	gcc -std=c99 $^ -o main
+CC = gcc
+OPTS = -std=c99
+
+all: main.c helper.o rules.o
+	$(CC) $(OPTS) $^ -o main
+
+helper.o : helper.c helper.h
+	$(CC) $(OPTS) -c $< -o $@
+
 rules.o: rules.c rules.h
-	gcc -std=c99 -c $< -o $@
+	$(CC) $(OPTS) -c $< -o $@
+
 .PHONY : clean
 clean:
-	rm main
+	rm main helper.o rules.o
