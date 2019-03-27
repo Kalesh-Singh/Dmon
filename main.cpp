@@ -8,7 +8,7 @@ int main(int argc, char* argv[]) {
     int interval = 5;                       // Seconds
     std::string rules = "rules";            // Rules pathname
 
-    parse_cmdline(argc, argv, root, interval, rules);
+    parseCmdline(argc, argv, root, interval, rules);
 
     std::cout << "Root directory: " << root << std::endl;
     std::cout << "Scan Interval: " << interval << std::endl;

@@ -1,7 +1,3 @@
-//
-// Created by kalesh on 3/26/19.
-//
-
 #include "helper.h"
 
 /*
@@ -19,7 +15,7 @@ void usage() {
 /*
  * Parses the command line and sets the rule, root, and interval.
  */
-void parse_cmdline(int argc, char* argv[], std::string& root, int& interval, std::string& rules) {
+void parseCmdline(int argc, char **argv, std::string &root, int &interval, std::string &rules) {
     for (int i = 1; i < argc; i++) {
         std::string arg(argv[i]);   // Convert the char* arg to a std::string arg
         if (arg == "-h") {          // Help flag
