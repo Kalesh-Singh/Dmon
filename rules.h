@@ -2,12 +2,7 @@
 #define DMON_RULES_H
 
 #include <iostream>
-
-enum class Event {
-    CREATE,
-    MODIFY,
-    DELETE
-};
+#include "event.h"
 
 typedef struct {
     Event event;
@@ -15,6 +10,6 @@ typedef struct {
     std::string action;
 } Rule;
 
-Rule[] parseRuleFile(std::string& ruleFile);
+Rule* parseRuleFile(std::string& ruleFile);
 
 #endif //DMON_RULES_H

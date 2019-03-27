@@ -1,6 +1,7 @@
 CC = g++
 OPTS = -Wall -Werror
 SRCS = $(wildcard *.cpp)
+INCS = $(wildcard *.h)
 OBJS = $(SRCS:.cpp=.o)
 
 all: main
@@ -8,7 +9,7 @@ all: main
 main: ${OBJS}
 	$(CC) $(OPTS) $^ -o $@
 
-%.o: %.c %.h
+%.o: %.c ${INCS}
 	$(CC) $(OPTS) -c $< -o $@
 
 .PHONY: clean
