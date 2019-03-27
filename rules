@@ -1,4 +1,8 @@
 CREATE *.c cc -o ${BASEPATH} ${FULLPATH}
+
+#
+# dafgadga dafgad
+#dfgadfaf
 MODIFY *.c cc -o ${BASEPATH} ${FULLPATH}
 MODIFY *.c cc -o ${BASEPATH} ${FULLPATH}
 DELETE *.c cc -o ${BASEPATH} ${FULLPATH}

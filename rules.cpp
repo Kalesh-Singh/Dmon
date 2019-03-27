@@ -33,13 +33,10 @@ int getNumRules(const std::string& rulesPathname) {
     while(std::getline(infile, line)) {
         std::istringstream iss(line);
         std::string firstToken;
-        if (!(iss >> firstToken) || (firstToken == "#")) {
+        if (!(iss >> firstToken) || (firstToken[0] == '#')) {
             continue;
         }
         rulesCount++;
     }
     return rulesCount;
 }
-
-
-
