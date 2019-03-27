@@ -15,8 +15,5 @@ int main(int argc, char* argv[]) {
     std::cout << "Scan Interval: " << interval << std::endl;
     std::cout << "Rules pathname: " << rules << std::endl;
 
-    std::cout << "Rules count: " << getNumRules("rules") << std::endl;
-    std::cout << "Get event: " << (int) getEvent("CREATE") << std::endl;
-
     return 0;
 }

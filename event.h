@@ -6,7 +6,8 @@
 enum class Event {
     CREATE,
     MODIFY,
-    DELETE
+    DELETE,
+    UNKNOWN
 };
 
 /*

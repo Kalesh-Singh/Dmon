@@ -4,15 +4,17 @@
 #include <iostream>
 #include "event.h"
 
+
 typedef struct {
     Event event;
     std::string pattern;
     std::string action;
 } Rule;
 
-Rule* parseRuleFile(std::string& ruleFile);
-
-// TODO: Delete
-int getNumRules(const std::string& rulesPathname);
+/*
+ * Parses the rule file and returns an array of
+ * rule objects.
+ */
+Rule* parseRulesFile(std::string& rulesPathname);
 
 #endif //DMON_RULES_H

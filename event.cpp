@@ -11,7 +11,6 @@ Event getEvent(const std::string& eventStr) {
     } else if (eventStr == "DELETE") {
         return Event::DELETE;
     } else {
-        std::cerr << "Invalid Event: " << eventStr << std::endl;
-        exit(1);
+        return Event::UNKNOWN;
     }
 }
