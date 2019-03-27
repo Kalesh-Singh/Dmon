@@ -1,5 +1,6 @@
 #include <iostream>
 #include "helper.h"
+#include "rules.h"
 
 int main(int argc, char* argv[]) {
     std::cout << "Hello, World!" << std::endl;
@@ -13,6 +14,9 @@ int main(int argc, char* argv[]) {
     std::cout << "Root directory: " << root << std::endl;
     std::cout << "Scan Interval: " << interval << std::endl;
     std::cout << "Rules pathname: " << rules << std::endl;
+
+    std::cout << "Rules count: " << getNumRules("rules") << std::endl;
+    std::cout << "Get event: " << (int) getEvent("DELETE") << std::endl;
 
     return 0;
 }

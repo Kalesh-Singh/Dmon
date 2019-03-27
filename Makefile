@@ -1,5 +1,5 @@
 CC = g++
-OPTS = -Wall -Werror
+OPTS = -g -Wall -Werror -std=c++11
 SRCS = $(wildcard *.cpp)
 INCS = $(wildcard *.h)
 OBJS = $(SRCS:.cpp=.o)

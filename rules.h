@@ -12,4 +12,7 @@ typedef struct {
 
 Rule* parseRuleFile(std::string& ruleFile);
 
+// TODO: Delete
+int getNumRules(const std::string& rulesPathname);
+
 #endif //DMON_RULES_H
