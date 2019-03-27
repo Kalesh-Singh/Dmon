@@ -1,8 +1,11 @@
+CC = gcc
+OPTS = -std=c99
+
 all: main.c helper.o
-	gcc -std=c99 $^ -o main
+	$(CC) $(OPTS) $^ -o main
 
 helper.o : helper.c helper.h
-    gcc -std=c99 -c $< -o $@
+	$(CC) $(OPTS) -c $< -o $@
 
 .PHONY : clean
 clean:
