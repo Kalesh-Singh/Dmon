@@ -23,9 +23,9 @@ int main(int argc, char *argv[]) {
         std::cout << rulesData.rules[i] << std::endl;
     }
 
-
-    delete rulesData.rules;         // Free the memory allocated for rules
-
     getRootNode(rootPathname);
+
+    delete [] rulesData.rules;
+
     return 0;
 }

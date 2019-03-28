@@ -76,7 +76,7 @@ void parseRule(const std::string &ruleStr, Rule *rules, int ruleNum) {
 
     if (rule->event == Event::UNKNOWN) {
         std::cerr << "Invalid Event: " << eventStr << std::endl;
-        delete rules;   // Free memory for rules
+        delete [] rules;   // Free memory for rules
         exit(1);
     }
 
