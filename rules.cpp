@@ -67,7 +67,6 @@ void parseRule(const std::string &ruleStr, Rule *rules, int ruleNum) {
     std::stringstream ss;
     ss << ruleStr;
 
-
     Rule *rule = rules + ruleNum;
 
     // Get the event
@@ -88,7 +87,7 @@ void parseRule(const std::string &ruleStr, Rule *rules, int ruleNum) {
     std::string actionStr;
     std::getline(ss, actionStr);
     // NOTE: getline will also return the space(s) delimiting pattern and action.
-    actionStr.erase(0, actionStr.find_first_not_of(" "));   // Remove trailing spaces
+    actionStr.erase(0, actionStr.find_first_not_of(" \t"));   // Remove trailing spaces
     rule->action = actionStr;
 }
 

@@ -1,17 +1,18 @@
 #include <iostream>
 #include "helper.h"
 #include "rules.h"
+#include "monitor.h"
 
 int main(int argc, char *argv[]) {
     std::cout << "Hello, World!" << std::endl;
 
-    std::string root = ".";                 // Root directory
+    std::string rootPathname = ".";         // Root directory
     int interval = 5;                       // Seconds
     std::string rulesPathname = "rules";    // Rules pathname
 
-    parseCmdline(argc, argv, root, interval, rulesPathname);
+    parseCmdline(argc, argv, rootPathname, interval, rulesPathname);
 
-    std::cout << "Root directory: " << root << std::endl;
+    std::cout << "Root directory: " << rootPathname << std::endl;
     std::cout << "Scan Interval: " << interval << std::endl;
     std::cout << "Rules pathname: " << rulesPathname << std::endl;
 
@@ -22,7 +23,9 @@ int main(int argc, char *argv[]) {
         std::cout << rulesData.rules[i] << std::endl;
     }
 
+
     delete rulesData.rules;         // Free the memory allocated for rules
 
+    getRootNode(rootPathname);
     return 0;
 }
