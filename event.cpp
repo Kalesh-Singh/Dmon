@@ -3,7 +3,7 @@
 /*
  * Parses the event string and returns the corresponding event.
  */
-Event getEvent(const std::string& eventStr) {
+Event getEvent(const std::string &eventStr) {
     if (eventStr == "CREATE") {
         return Event::CREATE;
     } else if (eventStr == "MODIFY") {
@@ -18,7 +18,7 @@ Event getEvent(const std::string& eventStr) {
 /*
  * Prints an event
  */
-std::ostream &operator<<(std::ostream &out, const Event& event) {
+std::ostream &operator<<(std::ostream &out, const Event &event) {
     switch (event) {
         case Event::CREATE:
             out << "CREATE";

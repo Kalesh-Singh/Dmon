@@ -5,23 +5,22 @@
 /*
  * Returns a count of the number of rules in the rules file.
  */
-int getRulesCount(const std::string& rulesPathname);
+int getRulesCount(const std::string &rulesPathname);
 
 /*
  * Parses the rule string into a Rule object.
  * If parsing fails, exits and prints invalid rule.
  * @param ruleNum - line num of rule starting at 0
  */
-void parseRule(const std::string& ruleStr, Rule* rules, int ruleNum);
+void parseRule(const std::string &ruleStr, Rule *rules, int ruleNum);
 
 /*
  * Prints a Rule
  */
-std::ostream &operator<<(std::ostream &out, const Rule& rule) {
-    out << "Event: " << rule.event
-        << " Pattern: " << rule.pattern
-        << " Action: " << rule.action
-        << std::endl;
+std::ostream &operator<<(std::ostream &out, const Rule &rule) {
+    out << "EVENT: " << rule.event
+        << "\t\tPATTERN: " << rule.pattern
+        << "\t\tACTION: " << rule.action;
     return out;
 }
 
@@ -29,7 +28,7 @@ std::ostream &operator<<(std::ostream &out, const Rule& rule) {
  * Parses the rule file and returns an array of
  * rule objects.
  */
-Rule* parseRulesFile(std::string& rulesPathname) {
+RulesData parseRulesFile(std::string &rulesPathname) {
     int rulesCount = getRulesCount(rulesPathname);
 
     // Get the rule strings from the file.
@@ -37,7 +36,7 @@ Rule* parseRulesFile(std::string& rulesPathname) {
     int ruleStrsIdx = 0;
 
     std::ifstream infile(rulesPathname);
-    for (std::string line; std::getline(infile, line); ) {
+    for (std::string line; std::getline(infile, line);) {
         std::istringstream iss(line);
         std::string firstToken;
 
@@ -50,13 +49,13 @@ Rule* parseRulesFile(std::string& rulesPathname) {
     }
 
     // Create the rule objects.
-    Rule* rules = new Rule[rulesCount];
+    Rule *rules = new Rule[rulesCount];
 
     for (int i = 0; i < rulesCount; i++) {
         parseRule(ruleStrs[i], rules, i);
     }
 
-    return rules;
+    return {rules, rulesCount};
 }
 
 /*
@@ -64,17 +63,15 @@ Rule* parseRulesFile(std::string& rulesPathname) {
  * If parsing fails, exits and prints invalid rule.
  * @param ruleNum - line num of rule starting at 0
  */
-void parseRule(const std::string& ruleStr, Rule* rules, int ruleNum) {
+void parseRule(const std::string &ruleStr, Rule *rules, int ruleNum) {
     std::stringstream ss;
     ss << ruleStr;
 
-    std::string eventStr;
-    std::string patternStr;
-    std::string actionStr;
 
-    Rule* rule = rules + ruleNum;
+    Rule *rule = rules + ruleNum;
 
     // Get the event
+    std::string eventStr;
     ss >> eventStr;
     rule->event = getEvent(eventStr);
 
@@ -88,18 +85,22 @@ void parseRule(const std::string& ruleStr, Rule* rules, int ruleNum) {
     ss >> rule->pattern;
 
     // Get the action
+    std::string actionStr;
     std::getline(ss, actionStr);
+    // NOTE: getline will also return the space(s) delimiting pattern and action.
+    actionStr.erase(0, actionStr.find_first_not_of(" "));   // Remove trailing spaces
+    rule->action = actionStr;
 }
 
 /*
  * Returns a count of the number of rules in the rules file.
  */
-int getRulesCount(const std::string& rulesPathname) {
+int getRulesCount(const std::string &rulesPathname) {
     int rulesCount = 0;
     std::ifstream infile(rulesPathname);
     std::string line;
 
-    for (std::string line; std::getline(infile, line); ) {
+    for (std::string line; std::getline(infile, line);) {
         std::istringstream iss(line);
         std::string firstToken;
         // Don't count empty lines and comments
@@ -111,5 +112,3 @@ int getRulesCount(const std::string& rulesPathname) {
 
     return rulesCount;
 }
-
-
