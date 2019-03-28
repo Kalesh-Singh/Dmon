@@ -13,14 +13,12 @@ enum class ItemType {
     FILE
 };
 
-typedef struct stat Stat;
-
 struct Node {
     std::string name;
     std::string basePath;
     std::string absPath;
     ItemType type;
-    Stat stat;
+    struct stat statBuffer;
     struct Node* children;
     int childCount;
 };
