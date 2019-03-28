@@ -9,6 +9,8 @@
 #include <sys/stat.h>       // struct stat, stat
 #include <sys/types.h>      // opendir
 #include <dirent.h>         // opendir
+#include <limits.h>         // realpath
+#include <stdlib.h>         // realpath
 
 enum class ItemType {
     DIRECTORY,
@@ -18,7 +20,7 @@ enum class ItemType {
 struct Node {
     std::string name;
     std::string basePath;
-    std::string absPath;
+    std::string fullPath;
     ItemType type;
     struct stat statBuffer;
     struct Node* children;
