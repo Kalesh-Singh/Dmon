@@ -12,7 +12,7 @@
 #include <limits.h>         // realpath
 #include <stdlib.h>         // realpath
 
-enum class ItemType {
+enum class PathType {
     DIRECTORY,
     FILE
 };
@@ -21,8 +21,9 @@ struct Node {
     std::string name;
     std::string basePath;
     std::string fullPath;
-    ItemType type;
+    PathType type;
     struct stat statBuffer;
+    struct Node* parent;
     struct Node* children;
     int childCount;
 };
@@ -40,6 +41,11 @@ Node getNode(std::string& pathname);
  * The pathname is expected to be the directory that dmon is monitoring.
  */
 Node getRootNode(std::string& pathname);
+
+/*
+ * Prints a path type
+ */
+std::ostream &operator<<(std::ostream &out, const PathType &pathType);
 
 
 #endif //DMON_MONITOR_H
