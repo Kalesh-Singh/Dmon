@@ -26,19 +26,14 @@ Node getRootNode(std::string& pathname) {
     // Set the base path (Just the pathname in this case)
     rootNode.basePath = pathname;
 
-
-    // TODO: Check stat to determine if it is a directory or not
-    // NOTE: Might not even need the ItemType enum (but might still be useful in tree traversal) -- IFFY
-    // If the root is not a directory then throw an error and exit.
-
     // Get the stats
-    stat(rootNode.fullPath, &(rootNode.statBuffer);
+    stat(rootNode.fullPath.c_str(), &(rootNode.statBuffer));
 
     // Set the path type
     if (S_ISREG(rootNode.statBuffer.st_mode)) {
-        rootNode.type = ItemType::DIRECTORY;
+        rootNode.type = PathType::DIRECTORY;
     } else {
-        rootNode.type = ItemType::FILE;
+        rootNode.type = PathType::FILE;
     }
 
     // Set the parent
