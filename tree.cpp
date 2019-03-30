@@ -111,3 +111,28 @@ void TreeNode::addChildren() {
         addChild(path);
     }
 }
+
+void Tree::buildSubTree(TreeNode* node) {
+    if (node->type == PathType::DIRECTORY) {
+        node->addChildren();
+
+        for (int i = 0; i < node->children.size(); i++) {\
+            TreeNode* childNode = node->children[i];
+            buildSubTree(childNode);
+        }
+    }
+}
+
+Tree::Tree(std::string pathname) {
+    root = new TreeNode(pathname);
+    buildSubTree(root);
+}
+
+Tree::~Tree() {
+    // TODO: Implementation
+
+}
+
+void Tree::postOrder() {
+    // TODO: Implementation
+}

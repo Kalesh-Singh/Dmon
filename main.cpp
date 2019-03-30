@@ -56,6 +56,10 @@ int main(int argc, char *argv[]) {
     std::cout << *childNode << std::endl;
     std::cout << "Num children: " << treeNode.children.size() << std::endl;
 
+    Tree myTree = Tree(rootPathname);
+
+
+
     delete [] rulesData.rules;
 
     return 0;

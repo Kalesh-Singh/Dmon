@@ -63,5 +63,26 @@ private:
 
 };
 
+class Tree {
+public:
+    // Constructor
+    Tree(std::string pathname);
+
+    // Destructor
+    ~Tree();
+
+    // Modifiers
+    void buildSubTree(TreeNode* node);
+
+    // Accessors
+    void postOrder();
+
+    // TODO: Generic Post Order
+    // TODO: For both the comparisons
+    // TODO: And will be used in the destructor
+
+    // Members
+    TreeNode* root = nullptr;
+};
 
 #endif //DMON_TREE_H
