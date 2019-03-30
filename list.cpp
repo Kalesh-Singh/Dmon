@@ -49,9 +49,23 @@ void List<T>::push_back(const T value) {
     sz++;
 }
 
-template <typename T>
-void List<T>::pop_back()
-{
+template<typename T>
+void List<T>::push_front(const T value); {
+    Node<T> *newNode = new Node<T>(value);
+    // If there are no nodes
+    if (!head) {
+        head = newNode;
+        tail = newNode;
+    } else {
+        newNode->next = head;
+        head->prev = newNode;
+        head = newNode;
+    }
+    sz++;
+}
+
+template<typename T>
+void List<T>::pop_back() {
     if (!head) {                            // Empty list
         return;
     } else if (head && tail == head) {      // Remove head
@@ -60,7 +74,7 @@ void List<T>::pop_back()
         tail = nullptr;
         sz = 0;
     } else {                                // Remove tail
-        Node<T>* nodePtr = tail;
+        Node<T> *nodePtr = tail;
         tail = tail->prev;
         tail->next = nullptr;
         delete nodePtr;
@@ -68,13 +82,29 @@ void List<T>::pop_back()
     }
 }
 
-template <typename T>
-void List<T>::erase(const unsigned int position)
-{
+
+template<typename T>
+void pop_front() {
+    if (!head) {                            // Empty list
+        return;
+    } else if (head && tail == head) {      // Remove head
+        delete head;
+        head = nullptr;
+        tail = nullptr;
+        sz = 0;
+    } else {                                // Remove head
+        Node<T>* nodePtr = head;
+        head = head->next;
+        delete nodePtr;
+    }
+}
+
+template<typename T>
+void List<T>::erase(const unsigned int position) {
     if (sz <= position || head == nullptr) {
         subError();
     }
-    Node<T>* nodePtr = head;
+    Node<T> *nodePtr = head;
 
     // Erase first element
     if (position == 0) {
