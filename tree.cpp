@@ -104,3 +104,10 @@ std::vector<std::string> TreeNode::getChildrenPaths() {
     }
     return paths;
 }
+
+void TreeNode::addChildren() {
+    std::vector<std::string> paths = getChildrenPaths();
+    for (std::string path : paths) {
+        addChild(path);
+    }
+}

@@ -39,12 +39,7 @@ public:
     // Destructor -- Tree class will handle destruction
 
     // Modifiers
-    void addChild(std::string& pathname);                // Only if FILE
-
-    void setParent(TreeNode *parent);
-
-    // Accessors
-    std::vector<std::string> getChildrenPaths();        // Only if FILE
+    void addChildren();     // Only if DIR
 
     // Output
     friend std::ostream &operator<<(std::ostream &out, const TreeNode &treeNode);
@@ -63,6 +58,8 @@ private:
     std::string getFullPath(std::string &pathname);
     PathType getType();         // Expected to be called after full path is set
     TimeStats getTimeStats();   // Expected to be called after full path is set
+    void addChild(std::string& pathname);           // Only if DIR
+    std::vector<std::string> getChildrenPaths();    // Only if DIR
 
 };
 

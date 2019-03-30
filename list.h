@@ -49,7 +49,7 @@ public:
     void erase(const unsigned int position);
 
     // Capacity:
-    unsigned int size() const { return size; }
+    unsigned int size() const { return sz; }
 
     // Output / Print
     template <typename U>
