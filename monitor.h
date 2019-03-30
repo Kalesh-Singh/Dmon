@@ -5,22 +5,22 @@
 #ifndef DMON_MONITOR_H
 #define DMON_MONITOR_H
 
-#include <iostream>
-#include <sys/stat.h>       // struct stat, stat
-#include <sys/types.h>      // opendir
-#include <dirent.h>         // opendir
-#include <limits.h>         // realpath
-#include <stdlib.h>         // realpath
+//#include <iostream>
+//#include <sys/stat.h>       // struct stat, stat
+//#include <sys/types.h>      // opendir
+//#include <dirent.h>         // opendir
+//#include <limits.h>         // realpath
+//#include <stdlib.h>         // realpath
 
-enum class PathType {
-    DIRECTORY,
-    FILE
-};
+//enum class PathType {
+//    DIRECTORY,
+//    FILE
+//};
 
 /*
  * Prints a path type
  */
-std::ostream &operator<<(std::ostream &out, const PathType &pathType);
+//std::ostream &operator<<(std::ostream &out, const PathType &pathType);
 
 /*
 

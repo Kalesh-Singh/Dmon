@@ -53,7 +53,7 @@ Node getRootNode(std::string& pathname) {
 }
 */
 
-
+/*
 std::ostream &operator<<(std::ostream &out, const PathType &pathType) {
     switch (pathType) {
         case PathType::FILE:
@@ -68,3 +68,4 @@ std::ostream &operator<<(std::ostream &out, const PathType &pathType) {
     }
     return out;
 }
+*/

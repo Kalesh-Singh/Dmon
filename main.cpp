@@ -3,6 +3,7 @@
 #include "rules.h"
 #include "monitor.h"
 #include "list.h"
+#include "tree.h"
 
 int main(int argc, char *argv[]) {
     std::cout << "Hello, World!" << std::endl;
@@ -48,6 +49,9 @@ int main(int argc, char *argv[]) {
     myList.push_front(1);
     std::cout << myList << std::endl;
     std::cout << myList[0] << std::endl;
+
+    TreeNode treeNode = TreeNode(".");
+    std::cout << treeNode << std::endl;
 
     delete [] rulesData.rules;
 
