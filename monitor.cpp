@@ -4,7 +4,7 @@
 
 #include "monitor.h"
 
-
+/*
 Node getRootNode(std::string& pathname) {
     Node rootNode;
 
@@ -51,6 +51,8 @@ Node getRootNode(std::string& pathname) {
 
     return rootNode;
 }
+*/
+
 
 std::ostream &operator<<(std::ostream &out, const PathType &pathType) {
     switch (pathType) {
@@ -66,4 +68,3 @@ std::ostream &operator<<(std::ostream &out, const PathType &pathType) {
     }
     return out;
 }
-

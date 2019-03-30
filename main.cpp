@@ -2,6 +2,7 @@
 #include "helper.h"
 #include "rules.h"
 #include "monitor.h"
+#include "list.h"
 
 int main(int argc, char *argv[]) {
     std::cout << "Hello, World!" << std::endl;
@@ -23,7 +24,30 @@ int main(int argc, char *argv[]) {
         std::cout << rulesData.rules[i] << std::endl;
     }
 
-    getRootNode(rootPathname);
+//    getRootNode(rootPathname);
+
+    List<int> myList = List<int>();
+    std::cout << myList << std::endl;
+    myList.pop_front();
+    std::cout << myList << std::endl;
+    myList.pop_back();
+    std::cout << myList << std::endl;
+
+    myList.push_back(1);
+    myList.push_back(2);
+    myList.push_back(3);
+    myList.push_back(4);
+
+    std::cout << myList << std::endl;
+    myList.pop_back();
+    std::cout << myList << std::endl;
+    myList.push_back(4);
+    std::cout << myList << std::endl;
+    myList.pop_front();
+    std::cout << myList << std::endl;
+    myList.push_front(1);
+    std::cout << myList << std::endl;
+    std::cout << myList[0] << std::endl;
 
     delete [] rulesData.rules;
 
