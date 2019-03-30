@@ -1,6 +1,7 @@
 #include <iostream>
 #include "helper.h"
 #include "rules.h"
+#include "actions.h"
 
 int main(int argc, char *argv[]) {
     std::cout << "Hello, World!" << std::endl;
@@ -22,7 +23,13 @@ int main(int argc, char *argv[]) {
         std::cout << rulesData.rules[i] << std::endl;
     }
 
-    delete rulesData.rules;         // Free the memory allocated for rules
+//    delete rulesData.rules;         // Free the memory allocated for rules
+    std::string a = "/bin/echo path = ${FULLPATH}";
+    Action *newaction = new Action();
+    parseAction("temp.cpp", a, newaction);
 
+    std::string b = "/bin/cat ${FULLPATH}";
+    Action *newaction2 = new Action();
+    parseAction("main.cpp", b, newaction2);
     return 0;
 }
