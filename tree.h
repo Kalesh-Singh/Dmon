@@ -33,7 +33,6 @@ struct TimeStats {
 
 class TreeNode {
 public:
-    static void printNode(TreeNode* treeNode);
     // Constructors
     TreeNode(std::string pathname);
 
@@ -50,6 +49,10 @@ public:
     friend std::ostream &operator<<(std::ostream &out, const TreeNode &treeNode);
 
 
+    /***** Traversal functions *********/
+    static void printNode(TreeNode* treeNode);
+    static void freeChildren(TreeNode* treeNode);   // Free memory allocated for children
+
     // Member variables
     std::string name;           // Name of file of directory
     std::string basePath;       // Path from execution
@@ -65,8 +68,6 @@ private:
     TimeStats getTimeStats();   // Expected to be called after full path is set
     void addChild(std::string& pathname);           // Only if DIR
     std::vector<std::string> getChildrenPaths();    // Only if DIR
-    void freeChildren();                            // Free memory allocated for children
-
 };
 
 class Tree {
@@ -77,21 +78,18 @@ public:
     // Destructor
     ~Tree();
 
+    // Print / Output
+    void printNodes();      // Prints the nodes in post order
+
+private:
+    // Members
+    TreeNode* root = nullptr;
+
     // Modifiers
     void buildSubTree(TreeNode* node);
 
     // Accessors
     void postOrder(void (*visitFunction) (TreeNode* treeNode));
-
-    // Print / Output
-    void printNodes();      // Prints the nodes in post order
-
-    // TODO: Generic Post Order
-    // TODO: For both the comparisons
-    // TODO: And will be used in the destructor
-
-    // Members
-    TreeNode* root = nullptr;
 };
 
 #endif //DMON_TREE_H

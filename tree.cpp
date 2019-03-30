@@ -3,22 +3,7 @@
 //
 
 #include "tree.h"
-#include <cstring>      // strcmp()
-
-/****** Traversal Functions ***********/
-
-void TreeNode::printNode(TreeNode *treeNode) {
-    std::cout << *treeNode << std::endl;
-}
-/*void printNode(TreeNode* treeNode);
-void freeChildren(TreeNode* treeNode);
-
-
-void TreeNode::printNode(TreeNode* treeNode) {
-    std::cout << *treeNode << std::endl;
-}
-
-void freeChildren(TreeNode* treeNode);
+#include <cstring>
 
 /*
  * Prints a PathType
@@ -37,8 +22,35 @@ std::ostream &operator<<(std::ostream &out, const PathType &pathType) {
     return out;
 }
 
-// TreeNode Methods
+/*
+ * Prints a Tree Node
+ */
+std::ostream &operator<<(std::ostream &out, const TreeNode &treeNode) {
+    out << "-------------------- Tree Node --------------------" << std::endl
+        << "Name: " << treeNode.name << std::endl
+        << "Base Path: " << treeNode.basePath << std::endl
+        << "Full Path: " << treeNode.fullPath << std::endl
+        << "Type: " << treeNode.type << std::endl
+        << "Last Accessed: " << treeNode.timeStats.accessed << std::endl
+        << "Last Modified: " << treeNode.timeStats.created << std::endl
+        << "Created: " << treeNode.timeStats.created << std::endl
+        << "---------------------------------------------------" << std::endl;
+}
 
+/*** TreeNode Traversal Functions *****/
+
+void TreeNode::printNode(TreeNode *treeNode) {
+    std::cout << *treeNode << std::endl;
+}
+
+
+void TreeNode::freeChildren(TreeNode *treeNode) {
+    for (int i  = 0; i < treeNode->children.size(); i++) {
+        delete (treeNode->children[i]);
+    }
+}
+
+/*** TreeNode Constructor ***/
 TreeNode::TreeNode(std::string pathname) {
     this->basePath = pathname;
     this->name = getName(pathname);
@@ -48,6 +60,24 @@ TreeNode::TreeNode(std::string pathname) {
     this->parent = nullptr;
 }
 
+/************* TreeNode Public Methods ************/
+void TreeNode::addChildren() {
+    std::vector<std::string> paths = getChildrenPaths();
+    for (std::string path : paths) {
+        addChild(path);
+    }
+}
+
+void TreeNode::postOrder(void (*visitFunction) (TreeNode* treeNode)) {
+    for (int i = 0; i < this->children.size(); i++) {
+        if (this->children[i]->type == PathType::DIRECTORY) {
+            this->children[i]->postOrder(visitFunction);
+        }
+    }
+    visitFunction(this);
+}
+
+/************* TreeNode Private Methods ***********/
 std::string TreeNode::getName(std::string &pathname) {
     std::string name = pathname;
     int findIdx = name.find_last_of("/");
@@ -80,30 +110,6 @@ TimeStats TreeNode::getTimeStats() {
     return {statBuffer.st_atime, statBuffer.st_mtime, statBuffer.st_ctime};
 }
 
-
-void TreeNode::addChild(std::string& pathname) {
-    if (type != PathType::DIRECTORY) {
-        std::cerr << "Only DIRECTORIES can have children" << std::endl;
-        exit(1);
-    }
-    TreeNode *treeNode = new TreeNode(pathname);
-    treeNode->parent = this;
-    children.push_back(treeNode);
-}
-
-
-std::ostream &operator<<(std::ostream &out, const TreeNode &treeNode) {
-    out << "-------------------- Tree Node --------------------" << std::endl
-        << "Name: " << treeNode.name << std::endl
-        << "Base Path: " << treeNode.basePath << std::endl
-        << "Full Path: " << treeNode.fullPath << std::endl
-        << "Type: " << treeNode.type << std::endl
-        << "Last Accessed: " << treeNode.timeStats.accessed << std::endl
-        << "Last Modified: " << treeNode.timeStats.created << std::endl
-        << "Created: " << treeNode.timeStats.created << std::endl
-        << "---------------------------------------------------" << std::endl;
-}
-
 std::vector<std::string> TreeNode::getChildrenPaths() {
     std::vector<std::string> paths;
     DIR* dir;
@@ -120,13 +126,33 @@ std::vector<std::string> TreeNode::getChildrenPaths() {
     return paths;
 }
 
-void TreeNode::addChildren() {
-    std::vector<std::string> paths = getChildrenPaths();
-    for (std::string path : paths) {
-        addChild(path);
+void TreeNode::addChild(std::string& pathname) {
+    if (type != PathType::DIRECTORY) {
+        std::cerr << "Only DIRECTORIES can have children" << std::endl;
+        exit(1);
     }
+    TreeNode *treeNode = new TreeNode(pathname);
+    treeNode->parent = this;
+    children.push_back(treeNode);
 }
 
+/****** Tree Constructor / Destructor *****/
+Tree::Tree(std::string pathname) {
+    root = new TreeNode(pathname);
+    buildSubTree(root);
+}
+
+Tree::~Tree() {
+    this->postOrder(TreeNode::freeChildren);
+    delete this->root;
+}
+
+/********* Tree Public Methods ***********/
+void Tree::printNodes() {
+    this->postOrder(TreeNode::printNode);
+}
+
+/********* Tree Private Methods ***********/
 void Tree::buildSubTree(TreeNode* node) {
     if (node->type == PathType::DIRECTORY) {
         node->addChildren();
@@ -138,31 +164,8 @@ void Tree::buildSubTree(TreeNode* node) {
     }
 }
 
-Tree::Tree(std::string pathname) {
-    root = new TreeNode(pathname);
-    buildSubTree(root);
-}
-
-Tree::~Tree() {
-    // TODO: Implementation
-
-}
-
-void TreeNode::postOrder(void (*visitFunction) (TreeNode* treeNode)) {
-    for (int i = 0; i < this->children.size(); i++) {
-        if (this->children[i]->type == PathType::DIRECTORY) {
-            this->children[i]->postOrder(visitFunction);
-        }
-    }
-    visitFunction(this);
-}
-
-
 void Tree::postOrder(void (*visitFunction) (TreeNode* treeNode)) {
     this->root->postOrder(visitFunction);
 }
 
-void Tree::printNodes() {
-    this->postOrder(TreeNode::printNode);
-}
 
