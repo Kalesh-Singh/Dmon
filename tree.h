@@ -33,6 +33,7 @@ struct TimeStats {
 
 class TreeNode {
 public:
+    static void printNode(TreeNode* treeNode);
     // Constructors
     TreeNode(std::string pathname);
 
@@ -40,6 +41,10 @@ public:
 
     // Modifiers
     void addChildren();     // Only if DIR
+
+    // Accessors
+
+    void postOrder(void (*visitFunction) (TreeNode* treeNode));
 
     // Output
     friend std::ostream &operator<<(std::ostream &out, const TreeNode &treeNode);
@@ -60,6 +65,7 @@ private:
     TimeStats getTimeStats();   // Expected to be called after full path is set
     void addChild(std::string& pathname);           // Only if DIR
     std::vector<std::string> getChildrenPaths();    // Only if DIR
+    void freeChildren();                            // Free memory allocated for children
 
 };
 
@@ -75,7 +81,10 @@ public:
     void buildSubTree(TreeNode* node);
 
     // Accessors
-    void postOrder();
+    void postOrder(void (*visitFunction) (TreeNode* treeNode));
+
+    // Print / Output
+    void printNodes();      // Prints the nodes in post order
 
     // TODO: Generic Post Order
     // TODO: For both the comparisons

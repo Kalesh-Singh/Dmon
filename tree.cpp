@@ -5,6 +5,21 @@
 #include "tree.h"
 #include <cstring>      // strcmp()
 
+/****** Traversal Functions ***********/
+
+void TreeNode::printNode(TreeNode *treeNode) {
+    std::cout << *treeNode << std::endl;
+}
+/*void printNode(TreeNode* treeNode);
+void freeChildren(TreeNode* treeNode);
+
+
+void TreeNode::printNode(TreeNode* treeNode) {
+    std::cout << *treeNode << std::endl;
+}
+
+void freeChildren(TreeNode* treeNode);
+
 /*
  * Prints a PathType
  */
@@ -133,6 +148,21 @@ Tree::~Tree() {
 
 }
 
-void Tree::postOrder() {
-    // TODO: Implementation
+void TreeNode::postOrder(void (*visitFunction) (TreeNode* treeNode)) {
+    for (int i = 0; i < this->children.size(); i++) {
+        if (this->children[i]->type == PathType::DIRECTORY) {
+            this->children[i]->postOrder(visitFunction);
+        }
+    }
+    visitFunction(this);
 }
+
+
+void Tree::postOrder(void (*visitFunction) (TreeNode* treeNode)) {
+    this->root->postOrder(visitFunction);
+}
+
+void Tree::printNodes() {
+    this->postOrder(TreeNode::printNode);
+}
+
