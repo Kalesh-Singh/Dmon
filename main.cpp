@@ -25,8 +25,6 @@ int main(int argc, char *argv[]) {
         std::cout << rulesData.rules[i] << std::endl;
     }
 
-//    getRootNode(rootPathname);
-
     List<int> myList = List<int>();
     std::cout << myList << std::endl;
     myList.pop_front();
@@ -55,8 +53,9 @@ int main(int argc, char *argv[]) {
     std::cout << "First Child: " << paths[0] << std::endl;
     std::cout << treeNode << std::endl;
 
-//    treeNode.addChild(paths.at(0));
-//    std::cout << *(treeNode.children[0]) << std::endl;
+    treeNode.addChild(paths[0]);
+    TreeNode* childNode = treeNode.children[0];
+    std::cout << *childNode << std::endl;
 
     delete [] rulesData.rules;
 

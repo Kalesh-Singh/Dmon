@@ -39,12 +39,11 @@ public:
     // Destructor -- Tree class will handle destruction
 
     // Modifiers
-    void addChild(std::string pathname);                // Only if FILE
+    void addChild(std::string& pathname);                // Only if FILE
 
     void setParent(TreeNode *parent);
 
     // Accessors
-    // TODO: Implement this
     std::vector<std::string> getChildrenPaths();        // Only if FILE
 
     // Output
@@ -61,9 +60,7 @@ public:
     List<TreeNode *> children;    // Should be empty for FILE
 private:
     std::string getName(std::string &pathname);
-
     std::string getFullPath(std::string &pathname);
-
     PathType getType();         // Expected to be called after full path is set
     TimeStats getTimeStats();   // Expected to be called after full path is set
 

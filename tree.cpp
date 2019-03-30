@@ -66,7 +66,7 @@ TimeStats TreeNode::getTimeStats() {
 }
 
 
-void TreeNode::addChild(std::string pathname) {
+void TreeNode::addChild(std::string& pathname) {
     if (type != PathType::DIRECTORY) {
         std::cerr << "Only DIRECTORIES can have children" << std::endl;
         exit(1);
