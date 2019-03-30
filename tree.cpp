@@ -3,6 +3,7 @@
 //
 
 #include "tree.h"
+#include <cstring>      // strcmp()
 
 /*
  * Prints a PathType
@@ -51,7 +52,7 @@ std::string TreeNode::getFullPath(std::string &pathname) {
 PathType TreeNode::getType() {
     struct stat statBuffer;
     stat(fullPath.c_str(), &statBuffer);
-    if (S_ISREG(statBuffer.st_mode)) {
+    if (S_ISDIR(statBuffer.st_mode)) {
         return PathType::DIRECTORY;
     } else {
         return PathType::FILE;
@@ -86,4 +87,20 @@ std::ostream &operator<<(std::ostream &out, const TreeNode &treeNode) {
         << "Last Modified: " << treeNode.timeStats.created << std::endl
         << "Created: " << treeNode.timeStats.created << std::endl
         << "---------------------------------------------------" << std::endl;
+}
+
+std::vector<std::string> TreeNode::getChildrenPaths() {
+    std::vector<std::string> paths;
+    DIR* dir;
+    struct dirent* dirStruct;
+    dir = opendir(basePath.c_str());
+    if (dir) {
+        while ((dirStruct = readdir(dir)) != NULL) {
+            if (strcmp(dirStruct->d_name, ".") && strcmp(dirStruct->d_name, "..")) {
+                paths.push_back(basePath + "/" + std::string(dirStruct->d_name));
+            }
+        }
+        closedir(dir);
+    }
+    return paths;
 }

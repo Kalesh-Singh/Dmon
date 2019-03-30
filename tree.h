@@ -7,9 +7,9 @@
 
 #include <iostream>
 #include <sys/stat.h>   // struct stat, stat()
-#include <sys/types.h>  // opendir()
+//#include <sys/types.h>  // opendir()
 #include <dirent.h>     // opendir()
-#include <climits>      // realpath()
+//#include <climits>      // realpath()
 #include <cstdlib>      // realpath()
 #include <ctime>        // time_t
 #include <vector>       // vector

@@ -50,8 +50,13 @@ int main(int argc, char *argv[]) {
     std::cout << myList << std::endl;
     std::cout << myList[0] << std::endl;
 
-    TreeNode treeNode = TreeNode(".");
+    TreeNode treeNode = TreeNode(rootPathname);
+    std::vector<std::string> paths = treeNode.getChildrenPaths();
+    std::cout << "First Child: " << paths[0] << std::endl;
     std::cout << treeNode << std::endl;
+
+//    treeNode.addChild(paths.at(0));
+//    std::cout << *(treeNode.children[0]) << std::endl;
 
     delete [] rulesData.rules;
 
