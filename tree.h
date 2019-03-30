@@ -7,9 +7,7 @@
 
 #include <iostream>
 #include <sys/stat.h>   // struct stat, stat()
-//#include <sys/types.h>  // opendir()
 #include <dirent.h>     // opendir()
-//#include <climits>      // realpath()
 #include <cstdlib>      // realpath()
 #include <ctime>        // time_t
 #include <vector>       // vector
@@ -68,6 +66,7 @@ private:
     TimeStats getTimeStats();   // Expected to be called after full path is set
     void addChild(std::string& pathname);           // Only if DIR
     std::vector<std::string> getChildrenPaths();    // Only if DIR
+    void dirCheck();                                // Checks that type is DIR
 };
 
 class Tree {

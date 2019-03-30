@@ -3,7 +3,6 @@
 //
 
 #include "tree.h"
-#include <cstring>
 
 /*
  * Prints a PathType
@@ -62,6 +61,7 @@ TreeNode::TreeNode(std::string pathname) {
 
 /************* TreeNode Public Methods ************/
 void TreeNode::addChildren() {
+    this->dirCheck();
     std::vector<std::string> paths = getChildrenPaths();
     for (std::string path : paths) {
         addChild(path);
@@ -111,13 +111,15 @@ TimeStats TreeNode::getTimeStats() {
 }
 
 std::vector<std::string> TreeNode::getChildrenPaths() {
+    this->dirCheck();
     std::vector<std::string> paths;
     DIR* dir;
     struct dirent* dirStruct;
     dir = opendir(basePath.c_str());
     if (dir) {
         while ((dirStruct = readdir(dir)) != NULL) {
-            if (strcmp(dirStruct->d_name, ".") && strcmp(dirStruct->d_name, "..")) {
+            std::string name(dirStruct->d_name);
+            if ((name != ".") && (name != "..")) {
                 paths.push_back(basePath + "/" + std::string(dirStruct->d_name));
             }
         }
@@ -127,10 +129,7 @@ std::vector<std::string> TreeNode::getChildrenPaths() {
 }
 
 void TreeNode::addChild(std::string& pathname) {
-    if (type != PathType::DIRECTORY) {
-        std::cerr << "Only DIRECTORIES can have children" << std::endl;
-        exit(1);
-    }
+    this->dirCheck();
     TreeNode *treeNode = new TreeNode(pathname);
     treeNode->parent = this;
     children.push_back(treeNode);
@@ -169,3 +168,9 @@ void Tree::postOrder(void (*visitFunction) (TreeNode* treeNode)) {
 }
 
 
+void TreeNode::dirCheck() {
+    if (type != PathType::DIRECTORY) {
+        std::cerr << "Only DIRECTORIES can have children" << std::endl;
+        exit(1);
+    }
+}
