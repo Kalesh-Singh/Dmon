@@ -44,7 +44,7 @@ void TreeNode::printNode(TreeNode *treeNode) {
 
 
 void TreeNode::freeChildren(TreeNode *treeNode) {
-    for (int i  = 0; i < treeNode->children.size(); i++) {
+    for (int i = 0; i < treeNode->children.size(); i++) {
         delete (treeNode->children[i]);
     }
 }
@@ -68,11 +68,9 @@ void TreeNode::addChildren() {
     }
 }
 
-void TreeNode::postOrder(void (*visitFunction) (TreeNode* treeNode)) {
+void TreeNode::postOrder(void (*visitFunction)(TreeNode *treeNode)) {
     for (int i = 0; i < this->children.size(); i++) {
-        if (this->children[i]->type == PathType::DIRECTORY) {
-            this->children[i]->postOrder(visitFunction);
-        }
+        this->children[i]->postOrder(visitFunction);
     }
     visitFunction(this);
 }
@@ -113,8 +111,8 @@ TimeStats TreeNode::getTimeStats() {
 std::vector<std::string> TreeNode::getChildrenPaths() {
     this->dirCheck();
     std::vector<std::string> paths;
-    DIR* dir;
-    struct dirent* dirStruct;
+    DIR *dir;
+    struct dirent *dirStruct;
     dir = opendir(basePath.c_str());
     if (dir) {
         while ((dirStruct = readdir(dir)) != NULL) {
@@ -128,11 +126,17 @@ std::vector<std::string> TreeNode::getChildrenPaths() {
     return paths;
 }
 
-void TreeNode::addChild(std::string& pathname) {
-    this->dirCheck();
+void TreeNode::addChild(std::string &pathname) {
     TreeNode *treeNode = new TreeNode(pathname);
     treeNode->parent = this;
     children.push_back(treeNode);
+}
+
+void TreeNode::dirCheck() {
+    if (type != PathType::DIRECTORY) {
+        std::cerr << "Only DIRECTORIES can have children" << std::endl;
+        exit(1);
+    }
 }
 
 /****** Tree Constructor / Destructor *****/
@@ -152,25 +156,21 @@ void Tree::printNodes() {
 }
 
 /********* Tree Private Methods ***********/
-void Tree::buildSubTree(TreeNode* node) {
+void Tree::buildSubTree(TreeNode *node) {
     if (node->type == PathType::DIRECTORY) {
         node->addChildren();
 
-        for (int i = 0; i < node->children.size(); i++) {\
-            TreeNode* childNode = node->children[i];
+        for (int i = 0; i < node->children.size(); i++) {
+            \
+            TreeNode *childNode = node->children[i];
             buildSubTree(childNode);
         }
     }
 }
 
-void Tree::postOrder(void (*visitFunction) (TreeNode* treeNode)) {
+void Tree::postOrder(void (*visitFunction)(TreeNode *treeNode)) {
     this->root->postOrder(visitFunction);
 }
 
 
-void TreeNode::dirCheck() {
-    if (type != PathType::DIRECTORY) {
-        std::cerr << "Only DIRECTORIES can have children" << std::endl;
-        exit(1);
-    }
-}
+
