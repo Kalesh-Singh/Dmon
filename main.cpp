@@ -19,11 +19,11 @@ int main(int argc, char *argv[]) {
     std::cout << "Scan Interval: " << interval << std::endl;
     std::cout << "Rules pathname: " << rulesPathname << std::endl;
 
-    RulesData rulesData = parseRulesFile(rulesPathname);
+    std::vector<Rule> rules = parseRulesFile(rulesPathname);
 
     std::cout << "Rules:" << std::endl;
-    for (int i = 0; i < rulesData.count; i++) {
-        std::cout << rulesData.rules[i] << std::endl;
+    for (int i = 0; i < rules.size(); i++) {
+        std::cout << rules[i] << std::endl;
     }
 
     List<int> myList = List<int>();
@@ -60,9 +60,6 @@ int main(int argc, char *argv[]) {
     Tree myTree = Tree(rootPathname);
     myTree.printNodes();
 
-
-    delete [] rulesData.rules;
-  
     std::string a = "/bin/echo path = ${FULLPATH}";
     Action *newaction = new Action();
     parseAction("temp.cpp", a, newaction);
