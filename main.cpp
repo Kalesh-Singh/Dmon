@@ -1,18 +1,21 @@
 #include <iostream>
 #include "helper.h"
 #include "rules.h"
+#include "monitor.h"
+#include "list.h"
+#include "tree.h"
 #include "actions.h"
 
 int main(int argc, char *argv[]) {
     std::cout << "Hello, World!" << std::endl;
 
-    std::string root = ".";                 // Root directory
+    std::string rootPathname = ".";         // Root directory
     int interval = 5;                       // Seconds
     std::string rulesPathname = "rules";    // Rules pathname
 
-    parseCmdline(argc, argv, root, interval, rulesPathname);
+    parseCmdline(argc, argv, rootPathname, interval, rulesPathname);
 
-    std::cout << "Root directory: " << root << std::endl;
+    std::cout << "Root directory: " << rootPathname << std::endl;
     std::cout << "Scan Interval: " << interval << std::endl;
     std::cout << "Rules pathname: " << rulesPathname << std::endl;
 
@@ -23,10 +26,47 @@ int main(int argc, char *argv[]) {
         std::cout << rulesData.rules[i] << std::endl;
     }
 
-//    delete rulesData.rules;         // Free the memory allocated for rules
+    List<int> myList = List<int>();
+    std::cout << myList << std::endl;
+    myList.pop_front();
+    std::cout << myList << std::endl;
+    myList.pop_back();
+    std::cout << myList << std::endl;
+
+    myList.push_back(1);
+    myList.push_back(2);
+    myList.push_back(3);
+    myList.push_back(4);
+
+    std::cout << myList << std::endl;
+    myList.pop_back();
+    std::cout << myList << std::endl;
+    myList.push_back(4);
+    std::cout << myList << std::endl;
+    myList.pop_front();
+    std::cout << myList << std::endl;
+    myList.push_front(1);
+    std::cout << myList << std::endl;
+    std::cout << myList[0] << std::endl;
+
+    TreeNode treeNode = TreeNode(rootPathname);
+    std::cout << treeNode << std::endl;
+
+    treeNode.addChildren();
+    TreeNode* childNode = treeNode.children[0];
+    std::cout << *childNode << std::endl;
+    std::cout << "Num children: " << treeNode.children.size() << std::endl;
+
+    Tree myTree = Tree(rootPathname);
+    myTree.printNodes();
+
+
+    delete [] rulesData.rules;
+  
     std::string a = "/bin/echo path = ${FULLPATH}";
     Action *newaction = new Action();
     parseAction("temp.cpp", a, newaction);
+
 
     std::string b = "/bin/cat ${FULLPATH}";
     Action *newaction2 = new Action();

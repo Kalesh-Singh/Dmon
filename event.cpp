@@ -32,6 +32,6 @@ std::ostream &operator<<(std::ostream &out, const Event &event) {
         default:
             out << "UNKNOWN";
             break;
-    };
+    }
     return out;
 }

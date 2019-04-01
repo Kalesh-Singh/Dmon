@@ -41,7 +41,11 @@ void parseCmdline(int argc, char **argv, std::string &root, int &interval, std::
             }
             rules = argv[i];
         } else {                    // Root directory
-            root = argv[i];
+            std::string rootStr = argv[i];
+            if (rootStr[rootStr.size()-1] == '/') {
+                rootStr.pop_back();    // Remove trailing forward slash
+            }
+            root = rootStr;
         }
     }
 }
