@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-enum class Event {
+enum class EventType {
     CREATE,
     MODIFY,
     DELETE,
@@ -13,11 +13,11 @@ enum class Event {
 /*
  * Parses the event string and returns the corresponding event.
  */
-Event getEvent(const std::string &eventStr);
+EventType getEventType(const std::string &eventStr);
 
 /*
  * Prints an event
  */
-std::ostream &operator<<(std::ostream &out, const Event &event);
+std::ostream &operator<<(std::ostream &out, const EventType &event);
 
 #endif //DMON_EVENT_H

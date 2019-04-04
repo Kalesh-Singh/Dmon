@@ -54,9 +54,9 @@ Rule parseRule(const std::string &ruleStr) {
     // Get the event
     std::string eventStr;
     ss >> eventStr;
-    rule.event = getEvent(eventStr);
-    if (rule.event == Event::UNKNOWN) {
-        std::cerr << "Invalid Event: " << eventStr << std::endl;
+    rule.event = getEventType(eventStr);
+    if (rule.event == EventType::UNKNOWN) {
+        std::cerr << "Invalid EventType: " << eventStr << std::endl;
         exit(1);
     }
 

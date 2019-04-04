@@ -7,7 +7,7 @@
 
 
 typedef struct {
-    Event event;
+    EventType event;
     std::string pattern;
     std::string action;
 } Rule;
