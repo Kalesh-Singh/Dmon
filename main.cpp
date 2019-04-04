@@ -52,14 +52,10 @@ int main(int argc, char *argv[]) {
     TreeNode treeNode = TreeNode(rootPathname);
     std::cout << treeNode << std::endl;
 
-    treeNode.addChildren();
-    TreeNode* childNode = treeNode.children[0];
-    std::cout << *childNode << std::endl;
-    std::cout << "Num children: " << treeNode.children.size() << std::endl;
-
     Tree myTree = Tree(rootPathname);
     myTree.printNodes();
 
+    /*
     std::string a = "/bin/echo path = ${FULLPATH}";
     Action *newaction = new Action();
     parseAction("temp.cpp", a, newaction);
@@ -68,5 +64,6 @@ int main(int argc, char *argv[]) {
     std::string b = "/bin/cat ${FULLPATH}";
     Action *newaction2 = new Action();
     parseAction("main.cpp", b, newaction2);
+    */
     return 0;
 }
