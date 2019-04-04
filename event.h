@@ -12,10 +12,10 @@ enum class EventType {
 };
 
 struct Event {
-    Event(EventType type, TreeNode node) : type(type), node(node) {}
+    Event(EventType type, TreeNode* node) : type(type), node(node) {}
 
     EventType type;
-    TreeNode node;
+    TreeNode* node;
 };
 
 /*

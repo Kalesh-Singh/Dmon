@@ -5,16 +5,18 @@
 #include "list.h"
 #include "tree.h"
 #include "actions.h"
+#include <unistd.h>
 
 int main(int argc, char *argv[]) {
     std::cout << "Hello, World!" << std::endl;
+
 
     std::string rootPathname = ".";         // Root directory
     int interval = 5;                       // Seconds
     std::string rulesPathname = "rules";    // Rules pathname
 
     parseCmdline(argc, argv, rootPathname, interval, rulesPathname);
-
+/*
     std::cout << "Root directory: " << rootPathname << std::endl;
     std::cout << "Scan Interval: " << interval << std::endl;
     std::cout << "Rules pathname: " << rulesPathname << std::endl;
@@ -55,7 +57,6 @@ int main(int argc, char *argv[]) {
     Tree myTree = Tree(rootPathname);
     myTree.printNodes();
 
-    /*
     std::string a = "/bin/echo path = ${FULLPATH}";
     Action *newaction = new Action();
     parseAction("temp.cpp", a, newaction);
@@ -65,5 +66,19 @@ int main(int argc, char *argv[]) {
     Action *newaction2 = new Action();
     parseAction("main.cpp", b, newaction2);
     */
+
+    TreeNode* prevTree = nullptr;
+    TreeNode* currTree = nullptr;
+    std::vector<Event> events;
+
+    while (true) {
+        currTree = (new Tree(rootPathname))->getRoot();
+        if (prevTree != nullptr) {
+            detect(prevTree, currTree, &events);
+            delete prevTree;
+        }
+        usleep(interval * 1000);
+        prevTree = currTree;
+    }
     return 0;
 }

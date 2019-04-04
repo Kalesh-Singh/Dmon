@@ -80,6 +80,8 @@ public:
     // Print / Output
     void printNodes();      // Prints the nodes in post order
 
+    TreeNode* getRoot() { return root; }
+
 private:
     // Members
     TreeNode* root = nullptr;
