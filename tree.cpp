@@ -3,6 +3,7 @@
 //
 
 #include "tree.h"
+#include <algorithm>
 
 /*
  * Prints a PathType
@@ -107,7 +108,9 @@ TimeStats TreeNode::getTimeStats() {
     stat(fullPath.c_str(), &statBuffer);
     return {statBuffer.st_atime, statBuffer.st_mtime, statBuffer.st_ctime};
 }
-
+/*
+ * Returns the children paths in lexicographical order.
+ */
 std::vector<std::string> TreeNode::getChildrenPaths() {
     this->dirCheck();
     std::vector<std::string> paths;
@@ -123,6 +126,10 @@ std::vector<std::string> TreeNode::getChildrenPaths() {
         }
         closedir(dir);
     }
+    // Ensure that the paths are sorted so that
+    // the tree will be ordered
+    std::sort(paths.begin(), paths.end());
+
     return paths;
 }
 
@@ -161,7 +168,6 @@ void Tree::buildSubTree(TreeNode *node) {
         node->addChildren();
 
         for (int i = 0; i < node->children.size(); i++) {
-            \
             TreeNode *childNode = node->children[i];
             buildSubTree(childNode);
         }
