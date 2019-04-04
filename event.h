@@ -2,12 +2,20 @@
 #define DMON_EVENT_H
 
 #include <iostream>
+#include "tree.h"
 
 enum class EventType {
     CREATE,
     MODIFY,
     DELETE,
     UNKNOWN
+};
+
+struct Event {
+    Event(EventType type, TreeNode node) : type(type), node(node) {}
+
+    EventType type;
+    TreeNode node;
 };
 
 /*
