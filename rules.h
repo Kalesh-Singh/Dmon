@@ -2,6 +2,7 @@
 #define DMON_RULES_H
 
 #include <iostream>
+#include <vector>
 #include "event.h"
 
 
@@ -11,16 +12,11 @@ typedef struct {
     std::string action;
 } Rule;
 
-typedef struct {
-    Rule *rules;
-    int count;
-} RulesData;
-
 /*
- * Parses the rule file and returns an array of
+ * Parses the rule file and returns a vector
  * rule objects.
  */
-RulesData parseRulesFile(std::string &rulesPathname);
+std::vector<Rule> parseRulesFile(std::string &rulesPathname);
 
 /*
  * Prints a Rule
