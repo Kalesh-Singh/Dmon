@@ -19,9 +19,9 @@ Index detect(TreeNode *prevTree, TreeNode *currTree, std::vector<Event> *events)
                 // in order to keep the comparison in sync. This is why detect() returns an Index.
                 int prevSize = prevTree->children.size();
                 int currSize = currTree->children.size();
-
                 int i = 0;
                 int j = 0;
+
                 while (i < prevSize && j < currSize) {
                     Index index = detect(prevTree->children[i], currTree->children[j], events);
                     if (index == Index::PREV) { // Only increment prev index (i)
