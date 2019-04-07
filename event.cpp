@@ -40,6 +40,6 @@ std::ostream &operator<<(std::ostream &out, const EventType &eventType) {
  * Prints an event
  */
 std::ostream &operator<<(std::ostream &out, const Event &event) {
-    out << event.node->fullPath << " was " << event.type;
+    out << event.type << ": " << event.node->fullPath;
     return out;
 }

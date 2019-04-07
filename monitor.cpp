@@ -54,8 +54,8 @@ Index detect(TreeNode *prevTree, TreeNode *currTree, std::vector<Event> *events)
             }
         } else {
             if (prevTree->timeStats.modified < currTree->timeStats.modified) {
-                std::cout << "MODIFIED: " << prevTree->fullPath << std::endl;
-                Event(EventType::MODIFY, prevTree);
+//                std::cout << "MODIFIED: " << prevTree->fullPath << std::endl;
+                events->push_back(Event(EventType::MODIFY, prevTree));
             }
         }
 
@@ -80,8 +80,8 @@ void addLeaves(TreeNode *tree, EventType type, std::vector<Event> *events) {
         stack.pop_back();
         // If Leaf Node
         if (node->type == PathType::FILE) {
-            std::cout << type << ": " << node->fullPath << std::endl;
-            Event(type, tree);
+//            std::cout << type << ": " << node->fullPath << std::endl;
+            events->push_back(Event(type, tree));
         } else {
             for (int i = node->children.size() - 1; i >= 0; i--) {
                 stack.push_back(node->children[i]);
