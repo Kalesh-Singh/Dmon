@@ -3,30 +3,30 @@
 /*
  * Parses the event string and returns the corresponding event.
  */
-Event getEvent(const std::string &eventStr) {
+EventType getEventType(const std::string &eventStr) {
     if (eventStr == "CREATE") {
-        return Event::CREATE;
+        return EventType::CREATE;
     } else if (eventStr == "MODIFY") {
-        return Event::MODIFY;
+        return EventType::MODIFY;
     } else if (eventStr == "DELETE") {
-        return Event::DELETE;
+        return EventType::DELETE;
     } else {
-        return Event::UNKNOWN;
+        return EventType::UNKNOWN;
     }
 }
 
 /*
  * Prints an event
  */
-std::ostream &operator<<(std::ostream &out, const Event &event) {
+std::ostream &operator<<(std::ostream &out, const EventType &event) {
     switch (event) {
-        case Event::CREATE:
+        case EventType::CREATE:
             out << "CREATE";
             break;
-        case Event::MODIFY:
+        case EventType::MODIFY:
             out << "MODIFY";
             break;
-        case Event::DELETE:
+        case EventType::DELETE:
             out << "DELETE";
             break;
         default:

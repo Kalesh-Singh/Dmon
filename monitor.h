@@ -5,50 +5,21 @@
 #ifndef DMON_MONITOR_H
 #define DMON_MONITOR_H
 
-//#include <iostream>
-//#include <sys/stat.h>       // struct stat, stat
-//#include <sys/types.h>      // opendir
-//#include <dirent.h>         // opendir
-//#include <limits.h>         // realpath
-//#include <stdlib.h>         // realpath
 
-//enum class PathType {
-//    DIRECTORY,
-//    FILE
-//};
+#include "tree.h"
+#include "event.h"
+#include <vector>
 
 /*
- * Prints a path type
+ * Compares two trees and populates the events vector.
  */
-//std::ostream &operator<<(std::ostream &out, const PathType &pathType);
 
-/*
-
-struct Node {
-    std::string name;
-    std::string basePath;
-    std::string fullPath;
-    PathType type;
-    struct stat statBuffer;
-    struct Node* parent;
-    struct Node* children;
-    int childCount;
+enum class Index {
+    BOTH,
+    PREV,
+    CURR
 };
 
-//typedef struct Node Node;
-*/
-/*
- * Create and return Node for the given pathname.
- * NOTE: This cannot be used to get the root node.
- */
-//Node getNode(std::string& pathname);
-
-/*
- * Create and return the root node.
- * The pathname is expected to be the directory that dmon is monitoring.
- */
-//Node getRootNode(std::string& pathname);
-
-
+Index detect(TreeNode* prevTree, TreeNode* currTree, std::vector<Event>* events);
 
 #endif //DMON_MONITOR_H
