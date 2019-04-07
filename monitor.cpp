@@ -5,9 +5,14 @@
 #include "monitor.h"
 
 /*
+ * Adds all the leaves fo the tree as the event specified to the events list.
+ */
+void addLeaves(TreeNode *tree, EventType type, std::vector<Event> *events);
+
+/*
  * Compares two trees and populates the events vector.
  */
-Index detect(TreeNode *prevTree, TreeNode *currTree, std::vector <Event> *events) {
+Index detect(TreeNode *prevTree, TreeNode *currTree, std::vector<Event> *events) {
     // This is the "Visit Function"
     if (prevTree->name == currTree->name) {         // Same Node
         // Check for modification
@@ -37,91 +42,50 @@ Index detect(TreeNode *prevTree, TreeNode *currTree, std::vector <Event> *events
             // Deletion at the End
             while (i < prevSize) {
                 TreeNode *prevNode = prevTree->children[i];
-                // TODO: Change this from pre to post order.
-                // Get all the leaf nodes of prevNode
-                std::vector<TreeNode *> stack;
-                stack.push_back(prevNode);
-                while (stack.size() > 0) {
-                    TreeNode *node = stack[stack.size() - 1];
-                    stack.pop_back();
-                    // If Leaf Node
-                    if (node->type == PathType::FILE) {
-                        std::cout << "DELETED: " << node->fullPath << std::endl;
-                    } else {
-                        for (int i = node->children.size() - 1; i >= 0; i--) {
-                            stack.push_back(node->children[i]);
-                        }
-                    }
-                }
+                addLeaves(prevNode, EventType::DELETE, events);
                 i++;
             }
 
             // Creation at the End
             while (j < currSize) {
                 TreeNode *currNode = currTree->children[j];
-                // TODO: Change this from pre to post order.
-                // Get all the leaf nodes of currNode
-                std::vector<TreeNode *> stack;
-                stack.push_back(currNode);
-                while (stack.size() > 0) {
-                    TreeNode *node = stack[stack.size() - 1];
-                    stack.pop_back();
-                    // If Leaf Node
-                    if (node->type == PathType::FILE) {
-                        std::cout << "CREATED: " << node->fullPath << std::endl;
-                    } else {
-                        for (int i = node->children.size() - 1; i >= 0; i--) {
-                            stack.push_back(node->children[i]);
-                        }
-                    }
-                }
+                addLeaves(currNode, EventType::CREATE, events);
                 j++;
             }
         } else {
             if (prevTree->timeStats.modified < currTree->timeStats.modified) {
-                std::cout << "MODIFIED: " << prevTree->fullPath << std::endl;
+//                std::cout << "MODIFIED: " << prevTree->fullPath << std::endl;
+                events->push_back(Event(EventType::MODIFY, prevTree));
             }
         }
 
         return Index::BOTH;
     } else if (prevTree->name < currTree->name) {   // prevTree node deleted
-        // TODO: Change this from pre to post order
-        // Get all the leaf nodes of prevTree
-        std::vector<TreeNode *> stack;
-        stack.push_back(prevTree);
-        while (stack.size() > 0) {
-            TreeNode *node = stack[stack.size() - 1];
-            stack.pop_back();
-            // If Leaf Node
-            if (node->type == PathType::FILE) {
-                std::cout << "DELETED: " << node->fullPath << std::endl;
-            } else {
-                for (int i = node->children.size() - 1; i >= 0; i--) {
-                    stack.push_back(node->children[i]);
-                }
-            }
-        }
-
+        addLeaves(prevTree, EventType::DELETE, events);
         return Index::PREV;
     } else {                                        // currTree node created
-        // TODO: Change this from pre to post order.
-        // Get all the leaf node of currTree
-        std::vector<TreeNode *> stack;
-        stack.push_back(currTree);
-        while (stack.size() > 0) {
-            TreeNode *node = stack[stack.size() - 1];
-            stack.pop_back();
-            // If Leaf Node
-            if (node->type == PathType::FILE) {
-                std::cout << "CREATED: " << node->fullPath << std::endl;
-            } else {
-                for (int i = node->children.size() - 1; i >= 0; i--) {
-                    stack.push_back(node->children[i]);
-                }
-            }
-        }
-
+        addLeaves(currTree, EventType::CREATE, events);
         return Index::CURR;
     }
 }
 
+/*
+ * Adds all the leaves fo the tree as the event specified to the events list.
+ */
+void addLeaves(TreeNode *tree, EventType type, std::vector<Event> *events) {
+    std::vector<TreeNode *> stack;
+    stack.push_back(tree);
+    while (stack.size() > 0) {
+        TreeNode *node = stack[stack.size() - 1];
+        stack.pop_back();
+        // If Leaf Node
+        if (node->type == PathType::FILE) {
+//            std::cout << type << ": " << node->fullPath << std::endl;
+            events->push_back(Event(type, tree));
+        } else {
+            for (int i = node->children.size() - 1; i >= 0; i--) {
+                stack.push_back(node->children[i]);
+            }
+        }
+    }
+}

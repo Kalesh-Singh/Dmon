@@ -24,8 +24,13 @@ struct Event {
 EventType getEventType(const std::string &eventStr);
 
 /*
+ * Prints an event type
+ */
+std::ostream &operator<<(std::ostream &out, const EventType &eventType);
+
+/*
  * Prints an event
  */
-std::ostream &operator<<(std::ostream &out, const EventType &event);
+std::ostream &operator<<(std::ostream &out, const Event &event);
 
 #endif //DMON_EVENT_H

@@ -69,16 +69,20 @@ int main(int argc, char *argv[]) {
 
     TreeNode* prevTree = nullptr;
     TreeNode* currTree = nullptr;
-    std::vector<Event> events;
 
     while (true) {
         currTree = (new Tree(rootPathname))->getRoot();
         if (prevTree != nullptr) {
+            std::vector<Event> events;
             detect(prevTree, currTree, &events);
+            for (Event event : events) {
+                std::cout << event << std::endl;
+            }
             delete prevTree;
         }
         usleep(interval * 1000);
         prevTree = currTree;
     }
+
     return 0;
 }
