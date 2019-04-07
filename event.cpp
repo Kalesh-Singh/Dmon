@@ -16,10 +16,10 @@ EventType getEventType(const std::string &eventStr) {
 }
 
 /*
- * Prints an event
+ * Prints an event type
  */
-std::ostream &operator<<(std::ostream &out, const EventType &event) {
-    switch (event) {
+std::ostream &operator<<(std::ostream &out, const EventType &eventType) {
+    switch (eventType) {
         case EventType::CREATE:
             out << "CREATE";
             break;
@@ -33,5 +33,13 @@ std::ostream &operator<<(std::ostream &out, const EventType &event) {
             out << "UNKNOWN";
             break;
     }
+    return out;
+}
+
+/*
+ * Prints an event
+ */
+std::ostream &operator<<(std::ostream &out, const Event &event) {
+    out << event.node->fullPath << " was " << event.type;
     return out;
 }
