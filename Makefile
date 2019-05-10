@@ -4,9 +4,9 @@ SRCS = $(wildcard *.cpp)
 INCS = $(wildcard *.h)
 OBJS = $(SRCS:.cpp=.o)
 
-all: main
+all: dmon
 
-main: ${OBJS}
+dmon: ${OBJS}
 	$(CC) $(OPTS) $^ -o $@
 
 %.o: %.c ${INCS}
@@ -14,4 +14,4 @@ main: ${OBJS}
 
 .PHONY: clean
 clean:
-	rm main *.o
+	rm dmon *.o

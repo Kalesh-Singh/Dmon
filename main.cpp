@@ -7,6 +7,8 @@
 #include "actions.h"
 #include <unistd.h>
 
+#define MICROSECONDS_CONST 1000000
+
 int main(int argc, char *argv[]) {
     std::cout << "Hello, World!" << std::endl;
 
@@ -77,7 +79,9 @@ int main(int argc, char *argv[]) {
             detect(prevTree, currTree, &events);
             delete prevTree;
         }
-        usleep(interval * 1000);
+        // usleep takes microseconds, not milliseconds thus constant to multiply is 10^6 not 10^3
+        // usleep(interval * 1000);
+        usleep(interval * MICROSECONDS_CONST);
         prevTree = currTree;
     }
     return 0;
