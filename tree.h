@@ -15,6 +15,8 @@
 #include <string.h>     // strcmp()
 #include <fstream>
 
+extern std::string filename;
+
 enum class PathType {
     DIRECTORY,
     FILE
@@ -35,7 +37,7 @@ class TreeNode {
 public:
     // Constructors
     TreeNode(std::string pathname);
-    TreeNode(std::string location, TreeNode* parent);
+    TreeNode(std::string name, TreeNode* parent);
 
     // Destructor -- Tree class will handle destruction
 
@@ -60,7 +62,7 @@ public:
     // store the node in a way that can be deserialized
     static void serialize(TreeNode* treeNode);
 
-    static void printBasePath(TreeNode* treeNode);
+    static void printNodeInfo(TreeNode* treeNode);
 
     // Member variables
     std::string name;           // Name of file of directory
@@ -92,7 +94,7 @@ public:
     // Print / Output
     // Prints the nodes in post order
     void printNodes();
-    void printBases();
+    void printInformation();
     // Opens a file and builds a tree that was previously serialized
     // and rebuild the tree that was serialized
     void serialize();

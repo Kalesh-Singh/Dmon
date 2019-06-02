@@ -94,10 +94,17 @@ int main(int argc, char *argv[]) {
         usleep(interval * MICROSECONDS_CONST);
         prevTree = currTree;
 
+        // Serialize the tree
+
         #if defined(SERIALIZE)
             // Just to clear the contents of the file before
             std::ofstream outFile;
-            outFile.open("../tree.txt", std::ios::out);
+            filename = "../tree.txt"; // This could be read from the user etc
+            outFile.open(filename, std::ios::out);
+            if ( !outFile.is_open() ) {
+                std::cout << "Error opening file" << std::endl;
+                return 0;
+            }
             outFile.close();
             ruelTree->serialize();
         #endif
@@ -107,7 +114,7 @@ int main(int argc, char *argv[]) {
             TreeNode* ruelTreeNode = nullptr;
             ruelTreeNode = deSerialize();
             Tree* testTree = new Tree(ruelTreeNode);
-            testTree->printBases();
+            testTree->printInformation();
         #endif
 
 

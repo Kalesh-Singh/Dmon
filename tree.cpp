@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <deque>
 
+// Used in serialization
+std::string filename;
 #define TREESERIALIZE
 /*
  * Prints a PathType
@@ -60,29 +62,26 @@ void TreeNode::serialize(TreeNode *treeNode) {
 
     // Store to file here
     std::ofstream outFile;
-    outFile.open("../tree.txt", std::ios::app);
+    outFile.open(filename, std::ios::app);
     if ( outFile.is_open() ) {
+        // All the information necessary a node has for building the tree
+        outFile << treeNode->name << std::endl;
         outFile << treeNode->basePath << std::endl;
+        outFile << treeNode->fullPath << std::endl;
+        outFile << treeNode->type << std::endl;
+        outFile << treeNode->timeStats.accessed << std::endl;
+        outFile << treeNode->timeStats.created << std::endl;
+        outFile << treeNode->timeStats.created << std::endl;
         outFile.close();
         return;
     }
 
     puts("Error opening file!\n");
     return;
-
-    /*
-    FILE* fp = fopen("../tree.txt", "a");
-    if ( fp == nullptr ) {
-        puts("Could not open file\n");
-        return;
-    }
-    fprintf(fp, "%s\n", treeNode->fullPath.c_str());
-    fclose(fp);
-    */
 }
 
-void TreeNode::printBasePath(TreeNode* treeNode) {
-    std::cout << treeNode->basePath << std::endl;
+void TreeNode::printNodeInfo(TreeNode* treeNode) {
+    std::cout << treeNode->name << std::endl;
     return;
 }
 
@@ -98,8 +97,8 @@ TreeNode::TreeNode(std::string pathname) {
 
 // Overloaded Constructor so that I can create a node from received data from the 
 // file
-TreeNode::TreeNode(std::string location, TreeNode* parent) {
-    this->basePath = location;
+TreeNode::TreeNode(std::string name, TreeNode* parent) {
+    this->name = name;
     this->parent = parent;
 }
 
@@ -128,7 +127,11 @@ void TreeNode::preOrder(void (*visitFunction)(TreeNode* treeNode)) {
     #if defined(TREESERIALIZE)
         // write the marker to denote that this node has no more children
         std::ofstream outFile;
-        outFile.open("../tree.txt", std::ios::app);
+        outFile.open(filename, std::ios::app);
+        if ( !outFile.is_open() ) {
+            std::cout << "File does not exist" << std::endl;
+            exit(0);
+        }
         outFile << ")\n";
         return;
     #endif
@@ -225,9 +228,9 @@ void Tree::printNodes() {
     this->postOrder(TreeNode::printNode);
 }
 
-// For testing -> RUEL
-void Tree::printBases() {
-    this->preOrder(TreeNode::printBasePath);
+// Prints the nodes in preorder
+void Tree::printInformation() {
+    this->preOrder(TreeNode::printNode);
 }
 
 void Tree::serialize() {
@@ -256,34 +259,69 @@ void Tree::preOrder(void (*visitFunction)(TreeNode* treeNode)) {
 
 // root is the root of the new tree being built
 TreeNode* deSerialize() {
-
     std::ifstream inFile;
-    inFile.open("../tree.txt", std::ios::in);
-
-    
-    FILE* fp = fopen("../tree.txt", "r");
-    if ( fp == nullptr ) {
-        puts("Could not open file\n");
-        return nullptr;
+    inFile.open(filename, std::ios::in);
+    if ( !inFile.is_open() ) {
+        std::cout << "File is not open" << std::endl;
+        exit(0);
     }
 
     TreeNode* root = nullptr;
     bool rootNull = true;
     TreeNode* currentNode = nullptr;
 
-    std::string basePath;
+    std::string name;           // Name of file of directory
+    std::string basePath;       // Path from execution
+    std::string fullPath;       // Absolute path
+    std::string this_type;
+    PathType type;              // Type (FIlE or DIRECTORY)
+    TimeStats timeStats;        // Accessed, Modified, Created
 
     
     while ( inFile ) {
-        inFile >> basePath;
-        if ( basePath.compare(")") != 0 ) {
+
+        inFile >> name;
+
+        if ( name.compare(")") != 0 ) {
             if ( rootNull ) {
+                inFile >> basePath >> fullPath >> this_type >> timeStats.accessed
+                >> timeStats.modified >> timeStats.created;
+
                 rootNull = false;
-                root = new TreeNode(basePath, nullptr);
+                root = new TreeNode(name, nullptr);
+                root->basePath = basePath;
+                root->fullPath = fullPath;
+                if ( this_type.compare("FILE") == 0 ) {
+                    // Set type to FILE
+                    root->type = PathType::FILE;
+                }
+                if ( this_type.compare("DIRECTORY") == 0 ) {
+                    // Set type to DIRECTORY
+                    root->type = PathType::DIRECTORY;
+                }
+                root->timeStats.accessed = timeStats.accessed;
+                root->timeStats.modified = timeStats.modified;
+                root->timeStats.created = timeStats.created;
                 currentNode = root;
             }
             else {
-                TreeNode* newNode = new TreeNode(basePath, currentNode);
+                inFile >> basePath >> fullPath >> this_type >> timeStats.accessed
+                >> timeStats.modified >> timeStats.created;
+
+                TreeNode* newNode = new TreeNode(name, currentNode);
+                newNode->basePath = basePath;
+                newNode->fullPath = fullPath;
+                if ( this_type.compare("FILE") == 0 ) {
+                    // Set type to FILE
+                    newNode->type = PathType::FILE;
+                }
+                if ( this_type.compare("DIRECTORY") == 0 ) {
+                    // Set type to DIRECTORY
+                    newNode->type = PathType::DIRECTORY;
+                }
+                newNode->timeStats.accessed = timeStats.accessed;
+                newNode->timeStats.modified = timeStats.modified;
+                newNode->timeStats.created = timeStats.created;
                 currentNode->children.push_back(newNode);
                 currentNode = newNode;
             }
