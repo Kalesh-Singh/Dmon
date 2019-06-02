@@ -6,7 +6,6 @@
 #include <algorithm>
 #include <deque>
 
-#define MARKER ')' // To mark the file
 #define TREESERIALIZE
 /*
  * Prints a PathType
@@ -58,7 +57,20 @@ void TreeNode::serialize(TreeNode *treeNode) {
         std::cout << "treeNode is null\n";
         return;
     }
-    // Serialize to file here
+
+    // Store to file here
+    std::ofstream outFile;
+    outFile.open("../tree.txt", std::ios::app);
+    if ( outFile.is_open() ) {
+        outFile << treeNode->basePath << std::endl;
+        outFile.close();
+        return;
+    }
+
+    puts("Error opening file!\n");
+    return;
+
+    /*
     FILE* fp = fopen("../tree.txt", "a");
     if ( fp == nullptr ) {
         puts("Could not open file\n");
@@ -66,6 +78,7 @@ void TreeNode::serialize(TreeNode *treeNode) {
     }
     fprintf(fp, "%s\n", treeNode->fullPath.c_str());
     fclose(fp);
+    */
 }
 
 void TreeNode::printBasePath(TreeNode* treeNode) {
@@ -83,7 +96,8 @@ TreeNode::TreeNode(std::string pathname) {
     this->parent = nullptr;
 }
 
-// Overloaded Constructor so that I can create a node
+// Overloaded Constructor so that I can create a node from received data from the 
+// file
 TreeNode::TreeNode(std::string location, TreeNode* parent) {
     this->basePath = location;
     this->parent = parent;
@@ -113,14 +127,12 @@ void TreeNode::preOrder(void (*visitFunction)(TreeNode* treeNode)) {
     }
     #if defined(TREESERIALIZE)
         // write the marker to denote that this node has no more children
-        FILE* fp = fopen("../tree.txt", "a");
-        fprintf(fp, "%c\n", MARKER);
-        fclose(fp);
+        std::ofstream outFile;
+        outFile.open("../tree.txt", std::ios::app);
+        outFile << ")\n";
         return;
     #endif
 }
-
-// For testing
 
 /************* TreeNode Private Methods ***********/
 std::string TreeNode::getName(std::string &pathname) {
@@ -245,6 +257,10 @@ void Tree::preOrder(void (*visitFunction)(TreeNode* treeNode)) {
 // root is the root of the new tree being built
 TreeNode* deSerialize() {
 
+    std::ifstream inFile;
+    inFile.open("../tree.txt", std::ios::in);
+
+    
     FILE* fp = fopen("../tree.txt", "r");
     if ( fp == nullptr ) {
         puts("Could not open file\n");
@@ -254,45 +270,30 @@ TreeNode* deSerialize() {
     TreeNode* root = nullptr;
     bool rootNull = true;
     TreeNode* currentNode = nullptr;
-    const char* marker = ")\n";
-    size_t len = 0;
-    ssize_t read;
-    char* line = NULL;
-    // This will be an iterative solution
-    // std::deque<std::string> queue; // Not sure I will need
 
-    while ( ( read = getline(&line, &len, fp ) ) != -1 ) {
-        // printf("Retrieved line of length %zu:\n", read);
-        // printf("%s", line);
-        if ( strcmp(line, marker) == 0 ) {
-            std::cout << "Found a marker" << std::endl;
-            currentNode = currentNode->parent;
-        }
-        else {
+    std::string basePath;
+
+    
+    while ( inFile ) {
+        inFile >> basePath;
+        if ( basePath.compare(")") != 0 ) {
             if ( rootNull ) {
                 rootNull = false;
-                root = new TreeNode(line, nullptr);
-                root->basePath.pop_back();
-                // std::cout << root->basePath << std::endl;
+                root = new TreeNode(basePath, nullptr);
                 currentNode = root;
             }
             else {
-                TreeNode* newNode = new TreeNode(line, currentNode);
-                newNode->basePath.pop_back();
-                // std::cout << newNode->basePath << std::endl;
+                TreeNode* newNode = new TreeNode(basePath, currentNode);
                 currentNode->children.push_back(newNode);
                 currentNode = newNode;
             }
         }
+        else {
+            if ( currentNode->parent != nullptr ) {
+                currentNode = currentNode->parent;
+            }
+        }
     }
-
-    if (line) {
-        free(line);
-    }
-
-    fclose(fp);
-    if ( root == nullptr ) {
-        std::cout << "For some reason root is still null" << std::endl;
-    }
+    inFile.close();
     return root;
 }

@@ -96,8 +96,9 @@ int main(int argc, char *argv[]) {
 
         #if defined(SERIALIZE)
             // Just to clear the contents of the file before
-            FILE* fp = fopen("../tree.txt", "w");
-            fclose(fp);
+            std::ofstream outFile;
+            outFile.open("../tree.txt", std::ios::out);
+            outFile.close();
             ruelTree->serialize();
         #endif
 
