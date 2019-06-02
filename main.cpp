@@ -9,6 +9,12 @@
 
 #define MICROSECONDS_CONST 1000000
 
+// Macros for testing serializing/deserialization tree
+
+#define SERIALIZE
+#define DESERIALIZE
+
+
 int main(int argc, char *argv[]) {
     std::cout << "Hello, World!" << std::endl;
 
@@ -71,6 +77,9 @@ int main(int argc, char *argv[]) {
 
     TreeNode* prevTree = nullptr;
     TreeNode* currTree = nullptr;
+
+    Tree* ruelTree = new Tree(rootPathname);
+
     std::vector<Event> events;
 
     while (true) {
@@ -79,10 +88,28 @@ int main(int argc, char *argv[]) {
             detect(prevTree, currTree, &events);
             delete prevTree;
         }
-        // usleep takes microseconds, not milliseconds thus constant to multiply is 10^6 not 10^3
+        // usleep takes microseconds, not milliseconds thus constant 
+        // to multiply is 10^6 not 10^3
         // usleep(interval * 1000);
         usleep(interval * MICROSECONDS_CONST);
         prevTree = currTree;
+
+        #if defined(SERIALIZE)
+            // Just to clear the contents of the file before
+            FILE* fp = fopen("../tree.txt", "w");
+            fclose(fp);
+            ruelTree->serialize();
+        #endif
+
+        #if defined(DESERIALIZE)
+            // deserialize(prevTree) Something like this
+            TreeNode* ruelTreeNode = nullptr;
+            ruelTreeNode = deSerialize();
+            Tree* testTree = new Tree(ruelTreeNode);
+            testTree->printBases();
+        #endif
+
+
     }
     return 0;
 }

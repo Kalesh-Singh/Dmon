@@ -12,6 +12,7 @@
 #include <ctime>        // time_t
 #include <vector>       // vector
 #include "list.h"       // List
+#include <string.h>     // strcmp()
 
 enum class PathType {
     DIRECTORY,
@@ -33,6 +34,7 @@ class TreeNode {
 public:
     // Constructors
     TreeNode(std::string pathname);
+    TreeNode(std::string location, TreeNode* parent);
 
     // Destructor -- Tree class will handle destruction
 
@@ -42,6 +44,7 @@ public:
     // Accessors
 
     void postOrder(void (*visitFunction) (TreeNode* treeNode));
+    void preOrder(void (*visitFunction) (TreeNode* treeNode));
 
     // Output
     friend std::ostream &operator<<(std::ostream &out, const TreeNode &treeNode);
@@ -49,7 +52,14 @@ public:
 
     /***** Traversal functions *********/
     static void printNode(TreeNode* treeNode);
-    static void freeChildren(TreeNode* treeNode);   // Free memory allocated for children
+    // Free memory allocated for children
+    static void freeChildren(TreeNode* treeNode);
+
+    // This will be a form of visit function that will
+    // store the node in a way that can be deserialized
+    static void serialize(TreeNode* treeNode);
+
+    static void printBasePath(TreeNode* treeNode);
 
     // Member variables
     std::string name;           // Name of file of directory
@@ -58,7 +68,7 @@ public:
     PathType type;              // Type (FIlE or DIRECTORY)
     TimeStats timeStats;        // Accessed, Modified, Created
     TreeNode *parent;           // Parent directory
-    List<TreeNode *> children;    // Should be empty for FILE
+    List<TreeNode *> children;  // Should be empty for FILE
 private:
     std::string getName(std::string &pathname);
     std::string getFullPath(std::string &pathname);
@@ -73,13 +83,18 @@ class Tree {
 public:
     // Constructor
     Tree(std::string pathname);
+    Tree(TreeNode* thisRoot);
 
     // Destructor
     ~Tree();
 
     // Print / Output
-    void printNodes();      // Prints the nodes in post order
-
+    // Prints the nodes in post order
+    void printNodes();
+    void printBases();
+    // Opens a file and builds a tree that was previously serialized
+    // and rebuild the tree that was serialized
+    void serialize();
     TreeNode* getRoot() { return root; }
 
 private:
@@ -91,6 +106,9 @@ private:
 
     // Accessors
     void postOrder(void (*visitFunction) (TreeNode* treeNode));
+    void preOrder(void (*visitFunction) (TreeNode* treeNode));
 };
+
+TreeNode* deSerialize();
 
 #endif //DMON_TREE_H

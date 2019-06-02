@@ -6,3 +6,4 @@ CMakeLists.txt
 *.cbp
 *.o
 main
+*.vscode*
